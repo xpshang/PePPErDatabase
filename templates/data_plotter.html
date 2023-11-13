@@ -1,0 +1,331 @@
+{% extends 'base.html' %}
+{% block title %}Download data {% endblock %}
+
+{% block style %}
+    <style>
+        .btn_plot {
+            background-color: #ee743d;
+            color: white;
+                        font-size: 14px
+        }
+
+          .btn_plot:hover{
+                    color: white;
+
+            background-color: #ED5511;
+        }
+
+
+        .plot_ul {
+            outline-style: none;
+        }
+
+        .ul_plot {
+
+            overflow-y: scroll;
+            max-height: 40vh
+        }
+
+        .ul_plot > label {
+            font-size: 10px;
+
+        }
+
+        .li_count {
+            position: absolute;
+            right: 10px;
+            font-size: 12px
+        }
+
+    </style>
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Plotting data of interest using PePPEr</h3>
+        </div>
+        <div class="col-sm-12" style="margin-top: 10px">
+            <p class="page_title">
+                Use this tool to explore the entire PePPEr database.
+            </p>
+            <p class="page_title">
+                           Select what categories you wish toview data by and use the plotter to visualize those selections:
+            </p>
+
+        </div>
+    </div>
+    <div style="padding-left: 40px;padding-right: 40px">
+
+
+    <div class="row" style="margin-top: 20px;font-size: 14px">
+        <div class="col-sm-4">
+       <strong>   Choose data by category selection</strong>
+        </div>
+
+        <div class="col-sm-2">
+           <strong>     Plot of:</strong>
+        </div>
+
+        <div class="col-sm-2">
+            <strong>    x-axis</strong>
+        </div>
+        <div class="col-sm-2">
+            <strong>    vs.</strong>
+        </div>
+        <div class="col-sm-2">
+             <strong>   y-axis</strong>
+        </div>
+    </div>
+    <hr>
+    <div class="row" style="margin-top: 20px;text-align: left;font-size: 12px">
+        <div class="col-sm-3">
+             <p class="page_title2"> Categories:</p>
+            <div class="d-flex gap-5">
+
+                <div class="list-group mx-0 ul_plot">
+                    {% for foo in rows %}
+                        <label class="list-group-item d-flex gap-2" style="min-width: 240px">
+                            <input class="form-check-input flex-shrink-0 filed" type="radio" name="filed" style="color: #ee743d"
+                                   value="{{ foo.name }}" {% if forloop.first %}
+                                   checked
+                            {% endif %} onclick="onchangeradio()">
+                            <span style="font-size: 12px">
+        {{ foo.desc }}
+
+      </span>
+                        </label>
+
+                    {% endfor %}
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+            <h4 class="cate_name page_title2"> :</h4>
+            <div class="d-flex gap-5">
+
+                <div class="list-group mx-0 catelist ul_plot" style="margin-top: 12px">
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+
+                <div class="col-sm-6">
+                   <p class="page_title2"> Measurements:</p>
+                    <div class="d-flex gap-5">
+
+                        <div class="list-group mx-0 ul_plot">
+                            {% for foo in data_rows %}
+                                <label class="list-group-item d-flex gap-2" style="min-width: 240px">
+                                    <input class="form-check-input flex-shrink-0 filed xlist" type="radio" name="x"
+                                           onchange="checkx()"
+                                           value="{{ foo.name }}"  {% if forloop.first %}
+                                           checked
+                                    {% endif %}>
+                                    <span style="font-size: 12px">
+        {{ foo.desc }}
+
+      </span>
+                                </label>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <p class="page_title2"> Measurements:</p>
+                    <div class="d-flex gap-5">
+
+                        <div class="list-group mx-0 ul_plot">
+                            {% for foo in data_rows %}
+                                <label class="list-group-item d-flex gap-2" style="min-width: 240px">
+                                    <input class="form-check-input flex-shrink-0 filed y_list" type="radio" name="y"
+                                           onchange="checky()"
+                                           value="{{ foo.name }}"  {% if forloop.first %}
+                                           checked
+                                    {% endif %}>
+                                    <span style="font-size: 12px">
+        {{ foo.desc }}
+
+      </span>
+                                </label>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-12">
+                    <form action="" id="info_form" method="post">
+                        {% csrf_token %}
+                        <input type="text" class="p_filed" name="m_filed" value="" hidden>
+                        <input type="text" class="p_value" name="m_value" value="" hidden>
+                        <input type="text" class="p_x" name="m_x" value="{{ data_rows.0.name }}" hidden>
+                        <input type="text" class="p_y" name="m_y" value="{{ data_rows.0.name }}" hidden>
+                        <button class="btn btn_plot" type="submit"  style="float: right;">Plot selection >>></button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+    <script>
+        var catelist = []
+        {% ifequal st "1" %}
+
+                        $(".p_x").val(localStorage.getItem("p_x"));
+
+                        $(".p_y").val(localStorage.getItem("p_y"));
+                       var  p_x=localStorage.getItem("p_x");
+                       var  p_y=localStorage.getItem("p_y");
+                        $('input[name="x"][value="'+p_x+'"]').prop('checked',true)
+                        $('input[name="y"][value="'+p_y+'"]').prop('checked',true)
+
+                      var  p_filed=localStorage.getItem("p_filed");
+                        console.log(p_filed)
+                        $('input[name="filed"][value="'+p_filed+'"]').prop('checked',true)
+
+            var o_values=JSON.parse(localStorage.getItem("p_value"))
+
+
+
+
+            {% else %}
+
+            localStorage.setItem('p_x', '{{ data_rows.0.name }}');
+            localStorage.setItem('p_y', '{{ data_rows.0.name }}');
+
+
+        {% endifequal %}
+
+
+        onloadFiled()
+
+        function checkvalue(e) {
+            if (e.id === "all_info") {
+                if (e.checked == true) {
+                    $("input[name='cate']").prop("checked", true)
+
+                } else {
+                    $("input[name='cate']").prop("checked", false)
+
+                }
+            }
+
+
+            var str = "";
+            var arrys=[]
+            $("input[name='cate']:checked").each(function (index, item) {
+                if ($("input[name='cate']:checked").length - 1 == index) {
+                    str += $(this).val();
+                } else {
+                    str += $(this).val() + "__a__";
+                }
+                arrys.push($(this).val())
+            });
+
+            $(".p_value").val(str);
+                        localStorage.setItem('p_value', JSON.stringify(arrys));
+
+        }
+
+        function checkx() {
+            var value = $('input[name="x"]:checked').val();
+            $(".p_x").val(value);
+
+            localStorage.setItem('p_x', value);
+
+        }
+
+        function checky() {
+            var value = $('input[name="y"]:checked').val();
+            $(".p_y").val(value);
+            localStorage.setItem('p_y', value);
+
+        }
+
+        function onloadFiled() {
+
+
+
+
+            var filed = $('input[name="filed"]:checked').val();
+            localStorage.setItem('p_filed', filed);
+
+            $(".p_filed").val(filed);
+            $.get("/data/plotter/fileds/?filed=" + filed, function (data) {
+                data = data['data']
+                catelist = []
+                var innerHtml = `
+    <label class="list-group-item d-flex gap-2" style="width: 240px;text-align: left">
+      <input class="form-check-input flex-shrink-0" type="checkbox" name="cate" id="all_info" value="all" onclick="checkvalue(this)">
+      <span style="font-size: 12px">
+       all
+      </span>
+       <span class="li_count"></span>
+    </label>`
+                for (var i = 0; i < data.length; i++) {
+
+                    innerHtml += `
+    <label class="list-group-item d-flex gap-2" style="width: 240px;text-align: left">
+      <input class="form-check-input flex-shrink-0" type="checkbox" name="cate"  onclick="checkvalue(this)" value="` + data[i].name + `">
+      <span style="font-size: 12px">
+        ` + data[i].name + `
+      </span>
+       <span class="li_count">` + data[i].count + `</span>
+    </label>`
+
+
+                }
+
+                $(".catelist").html(innerHtml)
+                $(".cate_name").html(filed + ":")
+                {% ifequal st  "1" %}
+                for (var i=0;i<o_values.length;i++){
+                                            $('input[name="cate"][value="'+o_values[i]+'"]').prop('checked',true)
+
+                }
+                {% endifequal %}
+
+
+
+                var str = "";
+                $("input[name='cate']:checked").each(function (index, item) {
+                    if ($("input[name='cate']:checked").length - 1 == index) {
+                        str += $(this).val();
+                    } else {
+                        str += $(this).val() + "__a__";
+                    }
+                });
+                $(".p_value").val(str);
+
+
+            })
+        }
+
+        function onchangeradio() {
+            onloadFiled()
+        }
+
+
+    </script>
+
+
+{% endblock %}

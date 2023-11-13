@@ -1,0 +1,153 @@
+{% load i18n static simpletags %}
+{% if result_hidden_fields %}
+    <div class="hiddenfields">{# DIV for HTML validation #}
+        {% for item in result_hidden_fields %}{{ item }}{% endfor %}
+    </div>
+{% endif %}
+
+{#{% if results %}#}
+<div class="results">
+    <table id="result_list">
+        <thead>
+        <tr>
+            {% for header in result_headers %}
+                <th scope="col" {{ header.class_attrib }}>
+                    {% if header.sortable %}
+                        {% if header.sort_priority > 0 %}
+                            <div class="sortoptions">
+                                <a class="sortremove" href="{{ header.url_remove }}"
+                                   title="{% trans "Remove from sorting" %}"></a>
+                                {% if num_sorted_fields > 1 %}<span class="sortpriority"
+                                                                    title="{% blocktrans with priority_number=header.sort_priority %}Sorting priority: {{ priority_number }}{% endblocktrans %}">{{ header.sort_priority }}</span>{% endif %}
+                                <a href="{{ header.url_toggle }}"
+                                   class="toggle {% if header.ascending %}ascending{% else %}descending{% endif %}"
+                                   title="{% trans "Toggle sorting" %}"></a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    <div class="text">{% if header.sortable %}
+                        <a href="{{ header.url_primary }}">{{ header.text|capfirst }}</a>{% else %}
+                        <span>{{ header.text|capfirst }}</span>{% endif %}</div>
+                    <div class="clear"></div>
+                </th>{% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for result in results %}
+            {% if result.form.non_field_errors %}
+                <tr>
+                    <td colspan="{{ result|length }}">{{ result.form.non_field_errors }}</td>
+                </tr>
+            {% endif %}
+            <tr class="{% cycle 'row1' 'row2' %}">
+                {% for item in result %}
+                    {{ item }}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="upload_lay">
+    <el-dialog
+            title="Add new data"
+            :visible.sync="dialogVisible"
+            width="30%"
+            :before-close="handleClose">
+        <el-upload
+                class="upload-demo"
+                ref="upload"
+                :action="action_url"
+                :on-change="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList"
+                :auto-upload="false"
+                :drag="!show_btn"
+                :limit="1"
+                :sh="false"
+                :on-process="onProgress"
+                :on-success="handleSuccess"
+                :percentage="process"
+        >
+            <i class="el-icon-upload" v-if="!show_btn"></i>
+            <div class="el-upload__text" v-if="!show_btn">Drag & Drop to Upload File，or<em>Browse File</em></div>
+
+            <div slot="tip" class="el-upload__tip" v-if="show_btn">Do you confim to add this new data file to the whole
+                database?
+            </div>
+        </el-upload>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false" v-if="show_btn">Cannel</el-button>
+    <el-button type="primary"  v-if="show_btn"  @click="submitUpload">Confirm</el-button>
+  </span>
+    </el-dialog>
+</div>
+
+<script>
+    const ulayerApp = new Vue({
+        el: '#upload_lay',
+        data: {
+            dialogVisible: false,
+            title: '弹出层',
+            params: [],
+            layer: {},
+            rules: [],
+            action: '',
+            fileList: [],
+            show_btn: false,
+            action_url:"/admin/upload/",
+            process:12,
+
+        },
+        methods: {
+            handleClose(done) {
+                this.$confirm('Confirm Close ？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {
+                    });
+            }, submitUpload() {
+                this.$refs.upload.submit();
+            },
+            handleRemove(file, fileList) {
+                    this.show_btn = false
+
+            },
+            handlePreview(file) {
+
+                    this.show_btn = true
+
+
+                console.log(file);
+            },
+            handleSuccess(data){
+                this.dialogVisible=false;
+                window.location.reload()
+
+            },
+            onProgress(progressEvent, file) {
+        //process = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total))
+        this.process = 68
+}
+        }
+    })
+
+    //弹出层处理
+    function showInfo(id) {
+        {#layerApp.layer = data.layer;#}
+        {#layerApp.title = data.layer.title;#}
+        {#layerApp.params = data.layer.params;#}
+        {#layerApp.action = action;#}
+
+        ulayerApp.$nextTick(() => {
+            ulayerApp.action_url="/admin/upload/?id="+id
+            ulayerApp.fileList=[]
+            ulayerApp.show_btn=false
+            ulayerApp.dialogVisible = true;
+        });
+
+    }
+</script>
+
+{#{% endif %}#}

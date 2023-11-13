@@ -1,0 +1,85 @@
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+DATA UPLOAD INSTRUCTIONS FOR PePPEr DATABASE
+Last update: 01 November 2023 by Samuel Mitchell
+How to correctly submit data for review by admin
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>
+>>
+Download the database template on the PePPEr website
+>>
+Fill in the following data columns using these given formats:
+Afterwards, upload file and submit for review by admin
+The data will be checked to ensure consistency with other database entries
+Once this has been completed, you will receive confirmation of data uploaded to PePPEr
+>>
+A. Publication: 
+[Last_name et al. YYYY] or [Last_name and last_name. YYYY]
+Data from PhD publications should be: [Last_name PhD thesis. YYYY]
+Data from Masters publications should be: [Last_name MS thesis. YYYY]
+Data from Bachelors publications should be: [Last_name BS thesis. YYYY]
+>>
+B. Volcano: 
+Give the most commonly used/known name to collate with possible pre-existing data
+>>
+C. Eruption:
+Give as [YYYY (or XX ka), eruption_unit, style]
+Style can be e.g. Strombolian, Plinian fallout, PDC deposit
+>>
+D. Data DOI:
+Given in the format [https://doi.org/.....] e.g. https://doi.org/10.1016/j.epsl.2017.01.011
+>>
+E. Chemistry:
+From the TAS classification - Picrobasalt, Basalt, Basaltic Andesite, Andesite, Dacite, Rhyodacite, Rhyolite....
+...Trachybasalt, Basaltic trachyandesite, Trachyandesite, Trachydacite, Trachyte, Basanite, Phonotephrite....
+...Foidite, Tephriphonolite, Phonolite
+If you are unsure of the correct field, plot the data up in the data plotter as (X) SiO2 wt.% vs. (Y) Total Alkali wt.%
+>>
+F,G,H,I. Chemistry values (wt %):
+For both bulk and glass analyses, give the SiO2 and Na2O+K2O wt.% as XX.XX wt.% of 100
+>>
+J. Chemistry data DOI:
+Given in the format [https://doi.org/.....] e.g. https://doi.org/10.1016/j.epsl.2017.01.011
+>>
+K. Rock/experiment type:
+Give the simplest description of deposit type e.g. Scoria, Pumice, Lava flow, Lava dome, Block and ash flow, Breadcrust bomb, Tuffisite
+Or the simplest description of experiment type and [material used] e.g. vesiculation, decompression, densification, sintering, [glass beads, ash]
+>>
+L. Subaerial/submarine:
+Are the deposits subaerial or submarine (or emergent)? Leave empty for experimental data
+>>
+M. Effusive/explosive:
+Are the natural deposits effusive or explosive? Clastic or coherent can be used if ensure of "style" e.g. submarine pumice
+For experimental data, use vesiculation, densification or sintering
+>>
+N. Sample no.:
+Quote the sample number as given directly within the publication text or supplement data files
+>>
+O. Bulk porosity (%):
+Enter values for bulk(total) porosity of a sample as a volume % of 100
+>>
+P. Connected porosity (%):
+Enter values for just the exterior connected porosity of a sample as a volume % of 100. Measured usually be pycnometry techniques
+>>
+Q. Connectivity:
+Enter value for connected porosity / bulk(total) porosity. Dimensionless. Should be value of 0.000 - ~1.000
+>>
+R,S. Permeabilites:
+Enter values for Darcian(viscous) and inertial permeabilities in R(k1) and S(k2) respectively. Values given in m^-2 and m^-1 respectively
+>>
+T. Vesicle number density (m-3):
+Enter determined value for 3D VND in m^-3 (no logarithmic values)
+>>
+U. S (polydispersivity):
+Value of S can be calculated in the polydispersivity tool in PePPEr. Data required are particle size bins and corresponding volume(mass) fractions
+>>
+V,W,X Crystallinities (%):
+Give values for total-,pheno-, and micro-crystallinities as % of total volume (no vesicularity corrections in this database).
+Columns W and X should add up to data in column V.
+>>
+>>
+Not all columns require filling in... we would be very impressed if you have collected everything in this list!
+If you have questions regarding the submission of data or what data to submit, please contact sam.mitchell@bristol.ac.uk.
+>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+THANK YOU FOR SUBMITTING DATA TO PePPEr
+>>>>>>>>>>>>>>>>>>>>>>>>>>

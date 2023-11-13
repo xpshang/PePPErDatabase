@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block title %}Upload data {% endblock %}
+
+{% block style %}
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-8" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Uploading new data to PePPEr</h3>
+
+        </div>
+        {#        <div class="col-sm-4">#}
+        {#            <p style="font-size: 14px;color: grey;text-align: right;margin-top: 10px;margin-right: 40px">Last updated: None</p>#}
+        {#        </div>#}
+        <div class="col-sm-12" style="margin-top: 10px">
+            <p class="page_title">
+                Have you collected your own data (new or existing) that is not yet within the database?
+            </p>
+            <p class="page_title">
+                Download the database template and follow the data instructions to have your data
+                included in the database.
+            </p>
+            <p class="page_title" style="color: grey;font-size: 12px">
+                Note, all data submitted will be reviewed before updating PePPEr to ensure that
+                formatting and units are all consistent with existing data.
+            </p>
+
+        </div>
+    </div>
+    <div class="row" style="padding-left: 40px;padding-right: 40px">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn_my btn_left0" id="upload-btn">Upload new data</button>
+                </div>
+                <div class="col-sm-12" style="font-size: 16px;margin-top: 20px">
+                    <p style="color: grey;font-size: 12px">upload file : <span id="filename">no file</span></p>
+                </div>
+                <form class="col-sm-12" id="file_form" method="post" enctype="multipart/form-data"
+                      action="/data/upload/">
+                    {% csrf_token %}
+                    <input type="file" hidden id="file-input" name="file">
+                    <button class="btn btn_my submit_review btn_left0" type="submit" disabled>Submit for review</button>
+                </form>
+                <div class="row" style="margin-top: 100px">
+                    <div class="col-sm-12">
+                        <p style="color: grey;font-size: 12px"> Any questions regarding the upload can be directed to
+                            sam.mitchell@bristol.ac.uk</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-6">
+            <div class="row">
+                {#                        <div class="col-sm-6 btn_center">#}
+                <a class="btn btn_my_border btn_center" style="width: 250px" type="button"
+                   href="/static/templates.xlsx">Download database template</a>
+                {#        </div>#}
+                {#        <div class="col-sm-6 btn_center">#}
+                <a class="btn btn_my_border btn_center" style="width: 250px;margin-left: 20px"
+                   href="/static/file/PePPEr_Data_upload_instructions.txt" download="">Download data instructions</a>
+            </div>
+            {#            </div>#}
+
+        </div>
+
+
+    </div>
+
+{% endblock %}
+{% block javascript %}
+
+    <script>
+
+
+        function getFileName(file) {
+            var pos = file.lastIndexOf("\\");
+            return file.substring(pos + 1);
+        }
+
+
+        const fileInput = document.getElementById('file-input');
+
+        const uploadBtn = document.getElementById('upload-btn');
+        uploadBtn.addEventListener('click', () => {
+            {% if  request.user.is_authenticated %}
+                fileInput.click();
+            {% else %}
+                Swal.fire({
+                    text: 'Please log in to upload data file. You can track the review status in upload history.',
+                    {#icon:"warning",#}
+                    showCancelButton: true,
+
+                    confirmButtonText: 'Login',
+                    confirmButtonColor: '#ee743d',
+                    buttonsStyling: false,
+                    cancelButtonText: 'Cancel',
+                    cancelButtonColor: '#ee743d',
+                    confirmButtonClass: 'btn btn_tip',
+                    cancelButtonClass: 'btn btn_border_tip'
+                }).then((isConfirm) => {
+                    if (isConfirm.value) {
+                        window.location.href = "/account/login/"
+                    } else {
+                    }
+                });
+            {% endif %}
+
+        });
+        fileInput.addEventListener('change', () => {
+            var uploadfile = $("#file-input").val();
+            var fileName = getFileName(uploadfile);
+            $("#filename").html(fileName)
+            $(".submit_review").attr("disabled", false)
+
+            Swal.fire({
+                title: 'Success!',
+                text: 'Upload successful. Please submit your data for review for the main database!',
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#ee743d',
+                confirmButtonClass: 'btn btn_tip',
+            })
+
+
+        })
+
+        $(document).ready(function () {
+            // 当表单被提交时
+            $('#file_form').submit(function (event) {
+                // 阻止默认的表单提交
+                event.preventDefault();
+
+                Swal.fire({
+                    text: 'It may take a while to upload your data file. Please be patient.',
+                    confirmButtonText: 'OK',
+                    buttonsStyling: false,
+                    confirmButtonColor: '#ee743d',
+                    confirmButtonClass: 'btn btn_tip',
+                })
+                $(".submit_review").attr("disabled", true)
+
+                // 创建FormData对象，包含表单数据
+                var formData = new FormData(this);
+
+                // 发送带文件的表单数据到服务器
+                $.ajax({
+                    url: $(this).attr('action'), // 表单的action属性，即服务器端处理请求的URL
+                    type: 'POST',
+                    data: formData,
+                    processData: false,  // 告诉jQuery不要处理数据
+                    contentType: false,  // 告诉jQuery不要设置contentType
+                    success: function (response) {
+
+
+                        Swal.fire({
+                            title: 'Success!',
+                                       icon: "success",
+                            text: 'Thank you. Your data has been successfully submitted for review by admin!',
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#ee743d',
+                            buttonsStyling: false,
+                            confirmButtonClass: 'btn btn_tip',
+                        })
+                        // 处理服务器返回的响应
+                        {#swal("Success!", "Thank you. Your data has been successfully submitted.", "success");#}
+                        $('#file_form')[0].reset()
+
+                    },
+                    error: function (xhr, status, error) {
+
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Upload failed!',
+                            icon: "error",
+                            confirmButtonText: 'OK',
+                            confirmButtonColor: '#ee743d',
+                            buttonsStyling: false,
+                            confirmButtonClass: 'btn btn_tip',
+                        })
+
+                        // 处理错误情况
+                    }
+                });
+            });
+        });
+
+    </script>
+
+{% endblock %}

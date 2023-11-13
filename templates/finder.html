@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Download data {% endblock %}
+
+{% block style %}
+   <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            white-space: normal; /* 设置文本自动换行 */
+        }
+    </style>
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+    <div class="col-sm-8">
+            <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Literature of the PePPEr database</h3>
+
+        </div>
+        <div class="col-sm-12" style="margin-top: 10px">
+            <p class="page_title">
+
+Here you can find all of the literature and sources currently included in the PePPEr database.
+
+            </p>
+
+
+        </div>
+
+    </div>
+    </div>
+    <div class="col-sm-4">
+        <row>
+            <div class="col-sm-12" style="padding-right:40px;text-align: right;margin-top: 20px">
+                 <a class="btn btn_my" href="/finder?type=download" >Download literature list</a>
+
+            </div>
+        </row>
+    </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;margin-right: 40px;margin-left: 40px">
+    <div class="col-sm-12"  style="height: 68vh;overflow-y: scroll">
+
+          <table class="table table-striped">
+    <thead class="sticky-top" style="background-color: #fff">
+      <tr>
+        <th>Publication</th>
+        <th>Pub.Year</th>
+        <th style="width: 10px">DOI</th>
+        <th>Title</th>
+      </tr>
+    </thead>
+
+
+
+    <tbody>
+    {% for foo in queryset %}
+
+            <tr>
+        <td> <p style="word-wrap: break-word;width: 100px;margin-bottom: 0">{{ foo.publication }} </p></td>
+        <td>{{ foo.pub_year }}</td>
+        <td style="width: 10px"><a href="{{ foo.doi }}" target="_blank"><p style="word-wrap: break-word;width: 300px">{{ foo.doi }}</p></a></td>
+        <td ><p>{{ foo.title }}</td>
+      </tr>
+
+    {% endfor %}
+
+
+    </tbody>
+  </table>
+
+
+    </div>
+    </div>
+    <div class="row">
+
+
+    </div>
+
+{% endblock %}

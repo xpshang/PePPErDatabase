@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Download data {% endblock %}
+
+{% block style %}
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Downloading the PePPEr database</h3>
+            {#            <h5>Last updated: {{ row.create_date }}</h5>#}
+
+        </div>
+        <div class="col-sm-12" style="margin-top: 10px">
+            <p class="page_title">
+                From here you can download either the entire PePPEr database, or choose from a
+                selection of popular data choices.
+
+            </p>
+            <p class="page_title">
+
+                Use the data plotter tool to download specific data
+                you have plotted.
+            </p>
+
+        </div>
+    </div>
+    <div class="row" style="text-align: left;margin-left: 5px">
+{#        <div class="col-sm-12">#}
+            <a class="btn btn_my_border btn_left" href="/export?name=all">Download whole database</a>
+{#        </div>#}
+    </div>
+    <div class="row" style="margin-left: 5px">
+
+
+{#        <div class="col-sm-4">#}
+            <a class="btn btn_my_border btn_left" href="/export?eff_exp=explosive&name=explosive">Download explosive
+                only</a>
+{#        </div>#}
+{#        <div class="col-sm-4">#}
+            <a class="btn btn_my_border btn_left" href="/export?volcano=experimental&name=experimental">Download
+                experimental only</a>
+
+{#        </div>#}
+{#        <div class="col-sm-4">#}
+            <a class="btn btn_my_border btn_left" href="/export?subaerial_submarine=Subaerial&name=subaerial">Download
+                subaerial only</a>
+
+{#        </div>#}
+    </div>
+    <div class="row" style="margin-left: 5px">
+{#        <div class="col-sm-4">#}
+            <a class="btn btn_my_border btn_left" href="/export?eff_exp=effusive&name=effusive">Download effusive
+                only</a>
+
+{#        </div>#}
+{#        <div class="col-sm-4">#}
+            <a class="btn btn_my_border btn_left" href="/export?volcano=experimental&name=not_experimental">Download
+                natural rocks only</a>
+
+{#        </div>#}
+{#        <div class="col-sm-4">#}
+
+            <a class="btn btn_my_border btn_left" href="/export?subaerial_submarine=Submarine&name=submarine">Download
+                submarine only
+            </a>
+{#        </div>#}
+    </div>
+
+
+{% endblock %}

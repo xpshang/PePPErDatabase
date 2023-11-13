@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Download data {% endblock %}
+
+{% block style %}
+
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Upload History</h3>
+
+        </div>
+        <div class="col-sm-12">
+
+        </div>
+    </div>
+    <div class="row" style="margin-left: 25px;margin-right: 25px">
+    <div class="col-sm-12"  style="height: 60vh;overflow-y: scroll">
+
+          <table class="table table-striped">
+    <thead class="sticky-top" style="background-color: #fff">
+      <tr>
+        <th>File</th>
+        <th>upload date</th>
+        <th>review status</th>
+        <th>comment</th>
+      </tr>
+    </thead>
+
+
+
+    <tbody>
+    {% for foo in rows %}
+
+            <tr>
+                <td style="width: 260px"><p style="word-wrap: break-word;width: 250px;">{{ foo.url }}</p></td>
+                <td  style="width: 150px"><p style="word-wrap: break-word;width: 150px">{{ foo.upload_date }}</p></td>
+        <td style="width: 200px">
+
+                 {% ifequal foo.status -1%}
+                          <div style="width: 70px;height: 30px;line-height: 20px;text-align: center;color: white;background-color: #A0A2AF;padding: 5px;font-size: 14px;border-radius: 5px">Reject</div>
+                 {% endifequal %}
+                 {% ifequal foo.status 1%}
+<div style="width: 70px;height: 30px;line-height: 20px;text-align: center;color: white;background-color: #71D4BB;padding: 5px;font-size: 14px;border-radius: 5px">Approved</div>
+                 {% endifequal %}
+                 {% ifequal foo.status 0%}
+<div style="width: 70px;height: 30px;line-height: 20px;text-align: center;color: white;background-color: orange;padding: 5px;font-size: 14px;border-radius: 5px">Pending</div>                 {% endifequal %}
+
+        </td>
+        <td>
+                             {% ifequal foo.status -1%}
+We are sorry, but your data has been rejected due to the data format not following our guidelines.  Please check and re-upload or contact the administrator via email (sam.mitchell@bristol.ac.uk) for further assistance.                 {% endifequal %}
+                 {% ifequal foo.status 1%}
+
+                     Your data has been accepted. Thank you very much for your contribution to the PePPEr database.
+                 {% endifequal %}
+
+
+        </td>
+      </tr>
+
+    {% endfor %}
+
+
+    </tbody>
+  </table>
+
+    </div>
+    </div>
+    <div class="row">
+
+
+    </div>
+
+{% endblock %}

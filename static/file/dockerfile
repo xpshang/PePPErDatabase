@@ -1,0 +1,16 @@
+FROM python:3.10
+#RUN sed -i 's/http:\/\/archive\.ubuntu\.com/http:\/\/mirrors\.aliyun\.com/g' /etc/apt/sources.list
+# 更新软件包列表
+# 解压源代码
+WORKDIR /app
+COPY . /app
+RUN pip install --upgrade pip
+
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
+# 更新镜像源缓存
+#RUN apk update
+#RUN apk add --update --no-cache build-base supervisor jpeg-dev zlib-dev postgresql-dev freetype-dev libffi-dev  && \
+RUN pip install -r requirements.txt -i https://pypi.douban.com/simple/  
+#RUN pip install --upgrade pip
+CMD ["python3","manage.py","runserver","0.0.0.0:7088"]

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block title %}Download data {% endblock %}
+
+{% block style %}
+    <style>
+        .btn_plot {
+            background-color: #ee743d;
+            color: white;
+            font-size: 14px
+        }
+
+        .btn_plot_border {
+            color: #ee743d;
+            border-color: #ee743d;
+            background-color: white;
+            font-size: 14px
+        }
+
+
+           .btn_plot:hover{
+                    color: white;
+
+            background-color: #ED5511;
+        }
+        .btn_plot_border:hover{
+            color: white;
+            background-color:#EE743D ;
+        }
+
+    </style>
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    {#    <div class="row">#}
+    {#        <div class="col-sm-12" style="margin-top: 20px;text-align: center">#}
+    {#            <h3 class="page_title">Plotting data of interest using PePPEr</h3>#}
+    {#        </div>#}
+    {#        <div class="col-sm-12" style="margin-top: 10px">#}
+    {#     <p class="page_title">#}
+    {#                Use this tool to explore the entire PePPEr database.#}
+    {#            </p>#}
+    {#            <p class="page_title">#}
+    {#                           Select what categories you wish toview data by and use the plotter to visualize those selections:#}
+    {#            </p>#}
+    {##}
+    {#        </div>#}
+    {#    </div>#}
+    <div class="row" style="margin-left:40px;margin-right: 40px;margin-top: 20px">
+        <div class="col-sm-6">
+            <a class="btn btn_plot_border" href="/data/plotter/plot/"><< Create another plot</a>
+            <a class="btn btn_plot_border" style="margin-left: 20px" href="/data/plotter/plot/?st=1"><< edit plot</a>
+
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn_plot" href="/img/download/?png={{ src }}" download="result.png" style="float: right"
+               id="downloadLink">Capture plot image</a>
+            <a class="btn btn_plot" href="/export?{{ filed }}={{ value }}" style="float: right;margin-right: 20px">Download
+                plot data</a>
+
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;text-align: center">
+
+
+        <div class="col-sm-12">
+
+            <div style="overflow-y: auto;max-height: 70vh">
+
+                <img src="{{ src }}" alt="" style="width:55%;margin: 0 auto;padding-bottom: 40px">
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="row" style="margin-top: 30px">
+        {#        <div class="col-sm-8">#}
+        {#            <a class="btn btn_plot" href="{{ src }}" download="result.png">Capture plot image</a>#}
+        {#            <a class="btn btn_plot" href="/export?{{ filed }}={{ value }}">Download plot data</a>#}
+        {##}
+        {#        </div>#}
+        {#        <div class="col-sm-4">#}
+        {#            <a class="btn btn_plot" style="float: right" href="/data/plotter/plot/"><< Create another plot</a>#}
+        {##}
+        {#        </div>#}
+    </div>
+
+
+{% endblock %}
+{% block javascript %}
+    <script>
+
+        {#$(document).ready(function() {#}
+        {#    // 获取下载链接元素#}
+        {#    var downloadLink = $('#downloadLink');#}
+        {##}
+        {#    // 在点击链接时修改文件名#}
+        {#    downloadLink.on('click', function(event) {#}
+        {#        // 阻止默认行为，防止直接打开文件#}
+        {#        event.preventDefault();#}
+        {##}
+        {#       var downloadLink = document.createElement('a');#}
+        {#        downloadLink.href = '{{ src }}';#}
+        {##}
+        {#        // 设置下载属性为图片的文件名（可选）#}
+        {#        downloadLink.download = 'downloaded-image.jpg';#}
+        {##}
+        {#        // 将临时链接追加到文档中#}
+        {#        document.body.appendChild(downloadLink);#}
+        {##}
+        {#        // 模拟点击链接，触发下载#}
+        {#        downloadLink.click();#}
+        {##}
+        {#        // 下载完成后移除临时链接#}
+        {#        document.body.removeChild(downloadLink);#}
+        {#    });#}
+        {#})
+            ;
+        #}
+
+    </script>
+{% endblock %}

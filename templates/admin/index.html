@@ -1,0 +1,20 @@
+{% extends 'admin/index.html' %}
+    {% load static %}
+
+    {% block head %}
+        {{ block.super }}
+        <style>
+        /* 隐藏表格右上角按钮 */
+.simpleui-title-buttons {
+    display: none;
+}
+        .right >button{
+            display: none;
+        }
+        </style>
+    {% endblock %}
+
+    {% block script %}
+        {{ block.super }}
+
+    {% endblock %}

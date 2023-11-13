@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock %}
+
+{% block style %}
+
+    <style>
+    .desc > p{
+        margin-top: 10px;
+    }
+    </style>
+ {% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Welcome to PePPEr</h3>
+
+        </div>
+        <div class="col-sm-12 desc">
+            <p class="page_title">
+
+
+                Description of the database [will add this at a later date]
+            </p>
+            <p class="page_title">
+
+                Basic functions:
+            </p>
+            <ul class="page_title" style="margin-left: 40px">
+
+
+                <li>Plotter for existing porosity, permeability and pycnometry data</li>
+                <li>Download database or upload new data</li>
+                <li>Calculate polydispersivity for particle size distributions</li>
+            </ul>
+            <p class="page_title">[Example images of plots of volcanic rock  Sam will provide</p>
+        </div>
+        <div class="row" style="margin-right: 40px">
+        <div class="col-sm-4" style="padding: 60px;text-align: center">
+            <img src="/static/images/home1.png" alt="" style="width: 100%">
+        </div>
+        <div class="col-sm-4" style="padding: 60px;text-align: center">
+            <img src="/static/images/home2.png" alt="" style="width: 100%">
+        </div>
+                            <div class="col-sm-4" style="padding: 60px;text-align: center">
+            <img src="/static/images/home3.png" alt="" style="width: 100%">
+        </div>
+        </div>
+    </div>
+{##}
+
+{% endblock %}

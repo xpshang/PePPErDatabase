@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Download data {% endblock %}
+
+{% block style %}
+
+{% endblock %}
+{% block js %} {% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 20px;text-align: center">
+            <h3 class="page_title_h3">Download history</h3>
+
+        </div>
+        <div class="col-sm-12">
+
+        </div>
+    </div>
+    <div class="row" style="margin-left: 25px;margin-right: 25px">
+    <div class="col-sm-12"  style="height: 60vh;overflow-y: scroll">
+
+          <table class="table table-striped">
+    <thead class="sticky-top" style="background-color: #fff">
+      <tr>
+        <th>File</th>
+        <th>Type</th>
+        <th>Create Time</th>
+        <th>Download</th>
+      </tr>
+    </thead>
+
+
+
+    <tbody>
+    {% for foo in rows %}
+
+            <tr>
+        <td >{{ foo.name }}</td>
+        <td>{% if foo.type == 0 %}
+            image
+            {% else %}
+            excel
+        {% endif %}
+        </td>
+        <td>{{ foo.crt_date }}</td>
+        <td><a href="{{ foo.url }}" download>download</a></td>
+        <td>{{ foo.title }}</td>
+      </tr>
+
+    {% endfor %}
+
+
+    </tbody>
+  </table>
+
+    </div>
+    </div>
+    <div class="row">
+
+
+    </div>
+
+{% endblock %}
